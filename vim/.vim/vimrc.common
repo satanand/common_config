@@ -1,0 +1,62 @@
+function! GetRunningOS()
+  if has("win32")
+    return "win"
+  endif
+  if has("unix")
+    if system('uname')=~'Darwin'
+      return "mac"
+    else
+      return "linux"
+    endif
+  endif
+endfunction
+
+
+
+set tags=tags;/
+"set incsearch
+"set virtualedit=all
+let os=GetRunningOS()
+if ( os == "mac" )	
+	set guifont=Droid\ Sans\ Mono:h14
+else
+	set guifont=Droid\ Sans\ Mono\ 12
+endif
+
+let OmniCpp_GlobalScopeSearch = 1
+let OmniCpp_ShowPrototypeInAbbr = 1 " show function parameters
+let OmniCpp_MayCompleteDot = 1 " autocomplete after .
+let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
+" automatically open and close the popup menu / preview window
+au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
+set completeopt=menuone,menu,longest,preview
+set nocp
+set nowrap
+"set columns=110
+"set lines=100
+
+syntax enable
+filetype plugin on
+
+
+let Tlist_Exit_OnlyWindow = 1     " exit if taglist is last window open
+let Tlist_Show_One_File = 1       " Only show tags for current buffer
+let Tlist_Enable_Fold_Column = 0  " no fold column (only showing one file)
+let Tlist_Use_Right_Window   = 1
+
+cmap TT<CR> TlistToggle<CR>
+cmap CT<CR> ConqueTermSplit bash<CR>
+cmap NT<CR> NERDTreeToggle<CR>
+
+if &diff                             " only for diff mode/vimdiff
+  set diffopt=filler,context:1000000 " filler is default and inserts empty lines for sync
+endif
+
+
+"if has("autocmd")
+"    autocmd GUIEnter * call s:Setwinpos()
+"endif
+
+"the following marks in red if 80 chars are crossed
+"highlight OverLength ctermbg=red ctermfg=white guibg=darkred
+"match OverLength /\%81v.\+/

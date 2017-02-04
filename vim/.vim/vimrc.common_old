@@ -1,0 +1,72 @@
+function! s:Setwinpos()
+   let xrandrv = system('xrandr -v | grep reports | cut -d" " -f5')
+   if  xrandrv == "1.1"
+      let hstr = system('xrandr | grep \* | cut -d" "  -f 4')
+   else
+      let hstr = system('xrandr | grep \* | cut -d" " -f 4 | cut -d"x" -f1')
+   endif
+   let hlen = str2nr(hstr)
+   if (hlen >= 1900)
+       set guifont=consolas\ 16
+       "execute 'set '.'guifont='.'Droid\ '.'Sans\ '.'Mono\ '.'12'
+   else
+	if (hlen >= 1600)
+           set guifont=consolas\ 14
+           "execute 'set '.'guifont='.'Droid\ '.'Sans\ '.'Mono\ '.'12'
+        else
+            if (hlen >= 1300)
+                set guifont=consolas\ 12
+                "execute 'set '.'guifont='.'Droid\ '.'Sans\ '.'Mono\ '.'1'
+            endif
+        endif
+   endif
+   if (hlen > 2560)
+   	let hlen = hlen - 3200
+   else
+   	let hlen = hlen - 1050
+   endif
+   let hlen = hlen / 2 
+   execute 'winpos ' . hlen . ' ' . 0
+endfunction
+
+set tags=tags;/
+"set incsearch
+"set virtualedit=all
+"set guifont=Droid\ Sans\ Mono\ 12
+"colorscheme donbass
+
+let OmniCpp_GlobalScopeSearch = 1
+let OmniCpp_ShowPrototypeInAbbr = 1 " show function parameters
+let OmniCpp_MayCompleteDot = 1 " autocomplete after .
+let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
+" automatically open and close the popup menu / preview window
+au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
+set completeopt=menuone,menu,longest,preview
+let xrandre = system('xrandr 2>&1  | grep Can')
+if empty(xrandre)
+	call s:Setwinpos()
+endif
+colorscheme buttercream
+set columns=110
+set lines=100
+set nocp
+set nowrap
+syntax enable
+filetype plugin on
+let Tlist_Exit_OnlyWindow = 1     " exit if taglist is last window open
+let Tlist_Show_One_File = 1       " Only show tags for current buffer
+let Tlist_Enable_Fold_Column = 0  " no fold column (only showing one file)
+let Tlist_Use_Right_Window   = 1
+
+cmap TT<CR> TlistToggle<CR>
+cmap CT<CR> ConqueTermSplit bash<CR>
+cmap NT<CR> NERDTreeToggle<CR>
+
+
+"if has("autocmd")
+"    autocmd GUIEnter * call s:Setwinpos()
+"endif
+
+"the following marks in red if 80 chars are crossed
+"highlight OverLength ctermbg=red ctermfg=white guibg=darkred
+"match OverLength /\%81v.\+/

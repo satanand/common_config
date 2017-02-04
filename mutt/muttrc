@@ -1,0 +1,280 @@
+## Basic configuration
+
+source "~/.mutt/user"
+
+### Advanced configuration
+### YOU SHOULD NOT MODIFY THIS UNLESS YOU KNOW WHAT YOU'RE DOING
+
+# Loading language properties
+
+source "~/.mutt/lang/$my_lang"
+
+## Server config 
+# IMAP config
+
+set folder="~/Maildir"
+set spoolfile= +INBOX
+set postponed= +$my_drafts_noquote
+set record = +$my_sent_noquote
+set trash = +$my_trash_noquote
+source ~/.mutt/mailboxes
+
+macro index  <F8>  "<enter-command>unset wait_key<enter><shell-escape>~/.mutt/notmuch-mutt.pl --prompt search<enter><change-folder-readonly>~/.cache/notmuch/mutt/results<enter>" 
+
+#set imap_check_subscribed="yes"
+#set imap_list_subscribed="yes"
+set timeout=5
+set mail_check=5
+timeout-hook . 'exec sync-mailbox'
+#set imap_keepalive=2
+#set imap_idle
+unset mark_old
+set ssl_use_sslv3=yes
+
+set allow_ansi=yes
+
+
+
+
+# SMTP config
+set realname = $my_realname
+set from = "$my_username@$my_domain"
+set smtp_pass = $my_password
+set hostname = $my_domain
+set smtp_url = "smtp://$my_username@$my_domain@outlook.office365.com:587/"
+set ssl_force_tls = yes
+set smtp_authenticators = "login"
+set reverse_name
+
+alternates "(satananda.burla@cavium\.com)|(sburla@cavium\.com|satananda.burla@caviumnetworks.com)"
+
+
+## More settings
+
+# File storage settings
+
+set signature="~/.mutt/signature"
+set message_cachedir="~/.mutt/message_cache"
+set header_cache="~/.mutt/header_cache"
+set tmpdir="~/.mutt/tmp"
+
+# Text view first
+set pager_stop="yes"
+set smart_wrap="yes"
+auto_view text/html
+alternative_order text/plain text/enriched text/html
+set reverse_name=yes
+set reverse_realname=yes
+
+#set pager=vim
+
+# Text editor
+#set editor='vim + -c "set textwidth=72" -c "set wrap" -c "set nocp" -c "?^$"'
+set editor="vim"
+
+# Adress book handling
+set sort_alias=alias
+set reverse_alias=yes
+set alias_file="~/.mutt/aliases"
+source "~/.mutt/gal"
+source "~/.mutt/aliases"
+source "~/.mutt/mailing_lists"
+# set query_command = "abook --mutt-query '%s'" macro index,pager A "<pipe-message>abook --add-email-quiet<return>" "add the sender address to abook"
+# set query_command = "abook --mutt-query '%s'"
+# macro generic,index,pager A "<pipe-message>abook --add-email-quiet<return>" "add the sender address to abook"
+# macro index,pager CB ": unset wait_key; set pipe_decode\n|w3m\n: set wait_key; unset pipe_decode\n" "call w3m to extract URLs out of a message"
+macro index,pager CB  <pipe-entry>'urlscan'<enter> 'Follow links with urlview'
+
+# Thread ordering
+# set sort = 'threads'
+set sort_browser="reverse-date"
+set sort_aux="last-date-received"
+set sort = reverse-date-received
+unset collapse_unread
+set index_format=" %?M?   ↳&%4C?   %Z      %D     %-15.15n    %s"
+
+## Key bindings
+
+# Mailboxes
+bind    index   G  imap-fetch-mail
+
+# generic
+bind generic :    "enter-command"
+bind generic q    "exit"              # exit this menu
+bind generic \cL  "refresh"           # clear and redraw the screen
+bind generic /    "search"            # search for a regular expression
+bind generic n    "search-next"       # search for next match
+bind generic N    "search-opposite"         # search for next match in opposite direction
+bind generic ?    "help"              # this screen
+bind generic j    "next-entry"        # move to the next entry
+bind generic k    "previous-entry"    # move to the previous entry
+bind generic     1g         "first-entry"       # move to the first entry
+bind generic     G         "last-entry"        # move to the last entry
+bind generic \Cb    previous-page
+bind generic \Cf    next-page
+bind generic \cL  "refresh"           # clear and redraw the screen
+
+
+
+# browser 
+bind browser /    "search"             # search for a regexp
+bind browser n    "search-next"        # search for next match
+bind browser N    "search-opposite"    # search for next match in opposite direction
+bind browser o    "sort"               # sort messages
+bind browser O    "sort-reverse"       # sort messages in reverse order
+bind browser \Cb  previous-page
+bind browser \Cf  next-page
+
+
+
+# Index
+bind    index   <up>        previous-entry
+bind    index   <down>      next-entry
+bind    index     k         previous-entry
+bind    index     j         next-entry
+bind    index     1g         "first-entry"       # move to the first entry
+bind    index     G         "last-entry"        # move to the last entry
+
+bind    index   <delete>    delete-message
+#bind    index   n           next-entry
+#bind    index   p           previous-entry
+macro   index    Q           ":set quit=yes\nq" "Quit mutt without asking"
+bind    index    C           noop
+bind    index    -           collapse-thread
+bind    index    _           collapse-all
+bind    index    o    "sort-mailbox"         # sort messages
+bind    index    O    "sort-reverse"         # sort messages in reverse order
+bind index \Cb     previous-page
+bind index \Cf     next-page
+bind index g group-reply
+bind    index n    "search-next"             # search for next match
+bind    index N    "search-opposite"         # search for next match in opposite direction
+
+set mailcap_path=~/mailcap:/etc/mailcap
+
+
+# Pager
+bind    pager /    "search"                  # search for a regular expression
+bind    pager n    "search-next"             # search for next match
+bind    pager N    "search-opposite"         # search for next match in opposite direction
+bind    pager ?    "help"
+bind    pager   <up>        previous-line
+bind    pager   <down>      next-line
+bind    pager   <left>      previous-entry
+bind    pager   <right>     next-entry
+bind    pager   <delete>    delete-message
+bind    pager    k           previous-line
+bind    pager    j           next-line
+#bind    pager   n           next-entry
+#bind    pager   p           previous-entry
+bind    pager   w           previous-page
+bind pager \Cb      previous-page
+bind pager \Cf      next-page
+bind pager \cL  "redraw-screen"           # clear and redraw the screen
+bind pager G bottom
+bind pager 1g top
+bind pager g group-reply
+
+# query
+bind query /    "search"           # search for a regular expression
+bind query n    "search-next"      # search for next match
+
+#change width accordingly
+set sidebar_width=30
+# 
+# #Visible at first, then change its value to yes
+set sidebar_visible=yes
+#  
+#set sidebar_delim='|'
+#set sidebar_sort=yes
+#set sidebar_shortpath=no
+set sidebar_folder_indent=yes
+set mail_check_stats
+set sidebar_format = "%B %?N?(%N)?%*"
+color sidebar_new       cyan  default
+#mailboxes =inbox =ml
+
+bind index CK sidebar-prev
+bind index CJ sidebar-next
+bind index CO sidebar-open
+bind pager CK sidebar-prev
+bind pager CJ sidebar-next
+bind pager CO sidebar-open
+macro index b '<enter-command>toggle sidebar_visible<enter>'
+macro pager b '<enter-command>toggle sidebar_visible<enter>'
+bind index B bounce-message
+
+
+
+
+
+
+
+
+
+# Colors
+color   normal      black default
+color   attachment  brightgreen default
+color   hdrdefault  cyan default
+color   indicator   black cyan
+color   markers     brightred default
+color   quoted      green default
+color   signature   cyan default
+color   status      brightgreen blue
+color   tilde       blue default
+color   tree        red default
+color   header      brightgreen default ^From:
+color   header      brightcyan default ^To:
+color   header      brightcyan default ^Reply-To:
+color   header      brightcyan default ^Cc:
+color   header      brightblue default ^Subject:
+color   body        brightred default [\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+
+color   body        brightblue default (https?|ftp)://[\-\.,/%~_:?&=\#a-zA-Z0-9]+
+
+color index 	cyan 		default "~Q"
+
+
+
+
+##
+##
+### Patch syntax highlighting                                                     
+color   normal  black           default                                         
+color   body    brightcyan     default         ^[[:space:]].*                  
+color   body    brightcyan     default         ^(diff).*                       
+color   body    black           default         ^[\-\-\-].*                     
+color   body    black           default         ^[\+\+\+].*                     
+color   body    green           default         ^[\+].*                         
+color   body    red             default         ^[\-].*                         
+color   body    brightblue      default         [@@].*                          
+color   body    brightcyan     default         ^(\s).*                         
+color   body    brightcyan     default         ^(Signed-off-by).*              
+color   body    brightcyan     default         ^(Cc)  
+#
+#
+# #color   normal  white           default                                         
+# color   body    brightwhite     default         ^[[:space:]].*                  
+# color   body    yellow          default         ^(diff).*                       
+# #color   body    white           default         ^[\-\-\-].*                     
+# #color   body    white           default         ^[\+\+\+].*                     
+# #color   body    green           default         ^[\+].*                         
+# #color   body    red             default         ^[\-].*                         
+# #color   body    brightblue      default         [@@].*                          
+# color   body    brightwhite     default         ^(\s).*                         
+# color   body    cyan            default         ^(Signed-off-by).*
+# color   body    brightwhite     default         ^(Cc)
+# color   body    yellow          default         "^diff \-.*"
+# color   body    brightwhite     default         "^index [a-f0-9].*"
+# color   body    brightblue      default         "^---$"
+# color   body    white           default         "^\-\-\- .*"
+# color   body    white           default         "^[\+]{3} .*"
+# color   body    green           default         "^[\+][^\+]+.*"
+# color   body    red             default         "^\-[^\-]+.*"
+# color   body    brightblue      default         "^@@ .*"
+# color   body    green           default         "LGTM"
+# color   body    brightmagenta   default         "-- Commit Summary --"
+# color   body    brightmagenta   default         "-- File Changes --"
+# color   body    brightmagenta   default         "-- Patch Links --"
+# color   body    green           default         "^Merged #.*"
+# color   body    red             default         "^Closed #.*"
+# color   body    brightblue      default         "^Reply to this email.*"

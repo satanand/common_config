@@ -1,0 +1,31 @@
+[general]
+accounts = Office
+pythonfile = ~/.bin/gnome_keyring_helper.py
+
+[Account Office]
+localrepository = OfficeLocal
+remoterepository = OfficeRemote
+status_backend = sqlite
+postsynchook = notmuch new
+
+[Repository OfficeRemote]
+type = IMAP
+remotehost = outlook.office365.com
+remoteusereval = get_username("Office")
+remotepasseval = get_password("Office")
+ssl = yes
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+folderfilter = lambda foldername: foldername not in ['Junk Email', 'Clutter', 'Sync Issues', 'Sync Issues/Conflicts', 'Sync Issues/Local Failures', 'Sync Issues/Server Failures', 'Suggested Contacts', 'RSS Subscriptions', 'quarantine', 'Notes', 'Calendar', 'Contacts', 'Journal', 'Tasks', 'Outbox']
+
+[Repository OfficeLocal]
+type = Maildir
+localfolders = ~/Maildir
+restoreatime = no
+
+[mbnames]
+enabled = yes
+filename = ~/.mutt/mailboxes
+header = "mailboxes "
+peritem = "+%(foldername)s"
+sep = " "
+footer = "\n"
