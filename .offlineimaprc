@@ -1,6 +1,5 @@
 [general]
 accounts = Office
-pythonfile = ~/.bin/offlineimap.py
 
 [Account Office]
 localrepository = OfficeLocal
@@ -12,7 +11,7 @@ postsynchook = notmuch new
 type = IMAP
 remotehost = outlook.office365.com
 remoteuser = sburla@caviumnetworks.com
-remotepasseval = subprocess.check_output(["pass", "show", "sburla@caviumnetworks.com"]).strip()
+remotepassfile = /home/satanand/.officepass 
 ssl = yes
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 folderfilter = lambda foldername: foldername not in ['Junk Email', 'Clutter', 'Sync Issues', 'Sync Issues/Conflicts', 'Sync Issues/Local Failures', 'Sync Issues/Server Failures', 'Suggested Contacts', 'RSS Subscriptions', 'quarantine', 'Notes', 'Calendar', 'Contacts', 'Journal', 'Tasks', 'Outbox']

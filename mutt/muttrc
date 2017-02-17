@@ -208,10 +208,6 @@ bind index B bounce-message
 
 
 
-
-
-
-
 # Colors
 color   normal      black default
 color   attachment  brightgreen default

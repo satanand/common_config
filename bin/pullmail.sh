@@ -22,4 +22,4 @@ if ps $pid &>/dev/null; then
   exit 1
 fi
 
-/usr/bin/offlineimap -d -u quiet & monitor $!
+/usr/bin/offlineimap -d -u quiet & monitor $! 
