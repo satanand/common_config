@@ -5,13 +5,14 @@ DATE=$(echo $TMP | sed 's/^0*//')
 MON=`date --date="2 days ago" +%b`
 YEAR=`date --date="2 days ago" +%Y`
 YEARMONTH=`date --date="2 days ago" +%Y-%B`
+EMAIL_ID="sburla@caviumnetworks.com"
 
 #netdev
 send_netdev_daily()
 {
 	wget http://lists.openwall.net/netdev/${DATE_MAIL} -O /tmp/x.html
 	sed -i "/<head>/a <base href=\" http:\/\/lists.openwall.net\/netdev\/${DATE_MAIL}\/\">" /tmp/x.html
-	mail -a "Content-type: text/html" -s "netdev-digest_${DATE_MAIL}" sburla@caviumnetworks.com < /tmp/x.html
+	mail -a "Content-type: text/html" -s "netdev-digest_${DATE_MAIL}" $EMAIL_ID < /tmp/x.html
 	rm -f /tmp/x.html
 }
 
@@ -20,7 +21,7 @@ send_lkml_daily()
 {
 	wget https://lkml.org/lkml/${DATE_MAIL} -O /tmp/x.html
 	sed -i "s#<head>#<head><base href=\" https://lkml.org/\">#" /tmp/x.html
-	mail -a "Content-type: text/html" -s "lkml-digest_${DATE_MAIL}" sburla@caviumnetworks.com < /tmp/x.html
+	mail -a "Content-type: text/html" -s "lkml-digest_${DATE_MAIL}" $EMAIL_ID < /tmp/x.html
 	rm -f /tmp/x.html
 }
 
@@ -58,7 +59,7 @@ send_linux_kernel_release()
 		echo $CURRENT_MINOR > /home/satanand/.current_minor_lkv
 	fi
 
-	mail -a "Content-type: text/html" -s "Linux_Changes_${CURRENT_MAJOR}.${CURRENT_MINOR}" sburla@caviumnetworks.com < /tmp/x.html
+	mail -a "Content-type: text/html" -s "Linux_Changes_${CURRENT_MAJOR}.${CURRENT_MINOR}" $EMAIL_ID < /tmp/x.html
 	rm -f /tmp/x.html
 }
 
@@ -167,7 +168,7 @@ send_mail ()
 				sed -i -e "/${ii6}.html/,+4d" /tmp/x.html
 			done
 			sed -i "/<HEAD>/a <base href="$archive_local$YEARMONTH\/">" /tmp/x.html
-			mail -a "Content-type: text/html" -s "$2_$DATE_MAIL" sburla@caviumnetworks.com < /tmp/x.html
+			mail -a "Content-type: text/html" -s "$2_$DATE_MAIL" $EMAIL_ID < /tmp/x.html
 		else
 			echo "not sending mail"
 		fi
