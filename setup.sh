@@ -1,14 +1,15 @@
 #!/bin/bash
-PATH=`$PWD`
+MYPATH=$PWD
+echo $MYPATH
 cd ~
-mkidr -p ~/bin
-ln -s $PATH/bin/* ~/bin/
-ln -s $PATH/dircolors
-ln -s $PATH/gitconfig_office .gitconfig
-ln -s $PATH/.mailcap .mailcap
-ln -s $PATH/.offlineimaprc .offlineimaprc
-ln -s $PATH/vim/.vim  .vim
-ln -s $PATH/vimrc .vimrc
-ln -s $PATH/.tmux.conf .tmux.conf
-mkidr -p ~/.mutt
-cp -r $PATH/mutt/* ~/.mutt/
+mkdir -p ~/bin
+ln -s $MYPATH/bin/* ~/bin/
+ln -s $MYPATH/.dircolors
+ln -s $MYPATH/gitconfig_office .gitconfig
+ln -s $MYPATH/.mailcap
+ln -s $MYPATH/.offlineimaprc
+ln -s $MYPATH/vim/.vim
+ln -s $MYPATH/vim/.vim/.vimrc
+ln -s $MYPATH/.tmux.conf
+mkdir -p ~/.mutt
+cp -r $MYPATH/mutt/* ~/.mutt/
