@@ -202,8 +202,8 @@ send_mail  $ARCHIVE6 $ARCHIVE6_NAME
 send_mail  $ARCHIVE5 $ARCHIVE5_NAME
 send_mail  $ARCHIVE3 $ARCHIVE3_NAME
 send_mail  $ARCHIVE4 $ARCHIVE4_NAME
-send_mail  $ARCHIVE1 $ARCHIVE1_NAME
+#send_mail  $ARCHIVE1 $ARCHIVE1_NAME
 send_mail  $ARCHIVE2 $ARCHIVE2_NAME
-send_lkml_daily
+#send_lkml_daily
 send_netdev_daily
 send_linux_kernel_release
