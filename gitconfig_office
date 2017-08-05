@@ -3,6 +3,7 @@
 	email = satananda.burla@cavium.com
 [core]
 	editor = vim
+	excludesfile = /Users/satanandaburla/.gitignore_global
 [sendemail]
 	smtpuser = sburla@caviumnetworks.com
 	smtpserver = smtp.office365.com
@@ -10,4 +11,12 @@
 	smtpserverport = 587
 	supresscc = self
 [diff]
-	tool = meld
+	  tool = meld
+[difftool "sourcetree"]
+	cmd = /usr/local/bin/bcomp \"$LOCAL\" \"$REMOTE\"
+	path = -ro
+[mergetool "sourcetree"]
+	cmd = /Users/satanandaburla/Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[commit]
+	template = /Users/satanandaburla/.stCommitMsg

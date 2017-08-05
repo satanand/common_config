@@ -19,6 +19,7 @@ set tags=tags;/
 let os=GetRunningOS()
 if ( os == "mac" )	
 	set guifont=Droid\ Sans\ Mono:h14
+	"colorscheme solarized
 else
 	set guifont=Droid\ Sans\ Mono\ 12
 endif
