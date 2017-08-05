@@ -139,7 +139,7 @@ bind    index   <delete>    delete-message
 #bind    index   n           next-entry
 #bind    index   p           previous-entry
 macro   index    Q           ":set quit=yes\nq" "Quit mutt without asking"
-bind    index    C           noop
+#bind    index    C           noop
 bind    index    -           collapse-thread
 bind    index    _           collapse-all
 bind    index    o    "sort-mailbox"         # sort messages

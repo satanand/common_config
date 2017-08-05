@@ -10,6 +10,4 @@
 	smtpserverport = 587
 	supresscc = self
 [diff]
-	  tool = default-difftool
-[difftool "default-difftool"]
-	  cmd = vim -f '+next' '+execute \"DirDiff\" argv(0) argv(1)' $LOCAL $REMOTE '+syntax off'
+	tool = meld

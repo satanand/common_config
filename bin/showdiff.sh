@@ -1,18 +1,25 @@
 #!/bin/sh
-FILE=$1
-DIR=$2
+PATCH=$1
+BRANCH=$2
+REPO=$3
 
 if [ -z "$1" ]
 then
-	echo "first argument is patch file name second argument is project dir name"
+	echo "first argument is patch"
 	exit
 fi
 
 if [ -z "$2" ]
 then
-	echo "first argument is patch file name second argument is project dir name"
+	echo "second argument is branch"
 	exit
 fi
+
+if [ -z "$3" ]
+then
+	REPO="git://cagit1/liquidio/liquidio.git"	
+fi
+
 
 if [ ! -f "$1" ] 
 then
@@ -20,16 +27,16 @@ then
         exit
 fi
 
-if [ ! -d $2 ]
-then
-	echo "$2 not a directory"
-        exit
-fi
 
 rm -rf /tmp/tmpshowdiff
 mkdir -p /tmp/tmpshowdiff
-cp -ra $2/* /tmp/tmpshowdiff/
-cd /tmp/tmpshowdiff; patch -p1 < $1
-cd -
-meld $2 /tmp/tmpshowdiff
+cd /tmp/tmpshowdiff && {
+	git clone $REPO
+	DIR=`ls`
+	cd $DIR && {
+		git checkout $BRANCH
+		patch -p1 < $PATCH
+		git difftool -D HEAD
+	}
+}
 rm -rf /tmp/tmpshowdiff
