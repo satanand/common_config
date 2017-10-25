@@ -25,7 +25,7 @@ macro index  <F8>  "<enter-command>unset wait_key<enter><shell-escape>~/.mutt/no
 #set imap_list_subscribed="yes"
 set timeout=5
 set mail_check=5
-timeout-hook . 'exec sync-mailbox'
+timeout-hook 'exec sync-mailbox'
 #set imap_keepalive=2
 #set imap_idle
 unset mark_old
@@ -150,7 +150,7 @@ bind index g group-reply
 bind    index n    "search-next"             # search for next match
 bind    index N    "search-opposite"         # search for next match in opposite direction
 
-set mailcap_path=~/mailcap:/etc/mailcap
+set mailcap_path=~/.mailcap
 
 
 # Pager
@@ -158,6 +158,7 @@ bind    pager /    "search"                  # search for a regular expression
 bind    pager n    "search-next"             # search for next match
 bind    pager N    "search-opposite"         # search for next match in opposite direction
 bind    pager ?    "help"
+#bind 	pager C	   noop
 bind    pager   <up>        previous-line
 bind    pager   <down>      next-line
 bind    pager   <left>      previous-entry

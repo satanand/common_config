@@ -1,5 +1,6 @@
 #!/bin/bash
 # file: pullmail.sh
+source /home/satanand/.gpg-agent-info
 monitor() {
   local pid=$1 i=0
 
@@ -23,3 +24,4 @@ if ps $pid &>/dev/null; then
 fi
 
 /usr/bin/offlineimap -d -u quiet & monitor $! 
+/usr/bin/offlineimap -d -u quiet 

@@ -1,20 +1,20 @@
 [general]
 accounts = Office
+pythonfile=~/.mutt/offlineimap.py
 
 [Account Office]
 localrepository = OfficeLocal
 remoterepository = OfficeRemote
-status_backend = sqlite
 postsynchook = notmuch new
 
 [Repository OfficeRemote]
 type = IMAP
 remotehost = outlook.office365.com
 remoteuser = sburla@caviumnetworks.com
-remotepassfile = /home/satanand/.officepass 
+remotepasseval = get_pass("office")
 ssl = yes
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
-folderfilter = lambda foldername: foldername not in ['Junk Email', 'Clutter', 'Sync Issues', 'Sync Issues/Conflicts', 'Sync Issues/Local Failures', 'Sync Issues/Server Failures', 'Suggested Contacts', 'RSS Subscriptions', 'quarantine', 'Notes', 'Calendar', 'Contacts', 'Journal', 'Tasks', 'Outbox']
+folderfilter = lambda folder: folder in ['INBOX', 'netdev', 'Sent Items']
 
 [Repository OfficeLocal]
 type = Maildir

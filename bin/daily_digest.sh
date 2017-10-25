@@ -1,4 +1,21 @@
 #!/bin/bash
+# sometime back most of the open source mailing lists have stopped sending daily digests. 
+# And even those that do send daily digests send 3 or 4 per day with not just the subject but the whole body of the mails
+# not exactly helpful if you are not interested in the subject
+# this script can be used in those cases, to get the gist of conversations o on some opensource mailing lists 
+# and send a mail to yourself on a daily basis. 
+# currently it gets you mails from 2 days back to cover for all kinds of timezones. if today is 9th you will get the
+# digest of 7th if you run this now
+# It helps you in not signing up for those lists but you can still monitor whats going on a daily basis. 
+# Also there is another check that goes through kernelnewbies.org and sends you info about new linux kernel releases.
+# needs bash > 4.3 
+# needs bsd-mailx not heirloom-mailx 
+# use postfix/ssmtp/msmtp with gmail or some other free smtp server
+# do not send without smtp server or it will be bounced
+# TODO starting and ending dates are displayed incorrectly 
+# TODO number of messages are displayed incorrectly
+# TODO it only supports daily digests, the binary search algorithm has to be modified to make it work with arbitary number of days
+
 DATE_MAIL=`date --date="2 days ago" +%Y/%m/%d`
 TMP=`date --date="2 days ago" +%d`
 DATE=$(echo $TMP | sed 's/^0*//')
@@ -31,8 +48,16 @@ send_lkml_daily()
 # Linux kernel changes.  
 send_linux_kernel_release()
 {
-	CURRENT_MAJOR=`cat /home/satanand/.current_major_lkv`
-	CURRENT_MINOR=`cat /home/satanand/.current_minor_lkv`
+	if [ ! -e ~/.current_major_lkv ]; then
+		wget https://www.kernel.org -O /tmp/x.html
+		CURRENT_MAJOR=`w3m /tmp/x.html  | grep Latest -A 1 | grep Download | awk '{ print $2 }' | cut -f1 -d.`
+		CURRENT_MINOR=`w3m /tmp/x.html  | grep Latest -A 1 | grep Download | awk '{ print $2 }' | cut -f2 -d.`
+		echo $CURRENT_MAJOR > ~/.current_major_lkv
+		echo $CURRENT_MINOR > ~/.current_minor_lkv
+		rm -f /tmp/x.html
+	fi
+	CURRENT_MAJOR=`cat ~/.current_major_lkv`
+	CURRENT_MINOR=`cat ~/.current_minor_lkv`
 	NEXT_MAJOR=`expr $CURRENT_MAJOR + 1`
 	NEXT_MINOR=`expr $CURRENT_MINOR + 1`
 
@@ -40,7 +65,7 @@ send_linux_kernel_release()
 	wget https://kernelnewbies.org/Linux_${CURRENT_MAJOR}.${NEXT_MINOR} -O /tmp/x.html
 	if [ ! -s /tmp/x.html ]; then
 		echo "could not find next minor"
-		# try next major
+		# try next major and 0 minor
 		echo "getting  Linux_${NEXT_MAJOR}.0"
 		wget https://kernelnewbies.org/Linux_${NEXT_MAJOR}.0 -O /tmp/x.html
 		if [ ! -s /tmp/x.html ]; then
@@ -50,13 +75,13 @@ send_linux_kernel_release()
 			echo "got next major version"
 			CURRENT_MAJOR=$NEXT_MAJOR
 			CURRENT_MINOR=0
-			echo $CURRENT_MAJOR > /home/satanand/.current_major_lkv
-			echo $CURRENT_MINOR > /home/satanand/.current_minor_lkv
+			echo $CURRENT_MAJOR > ~/.current_major_lkv
+			echo $CURRENT_MINOR > ~/.current_minor_lkv
 		fi
 	else
 		echo "got next minor version"
 		CURRENT_MINOR=$NEXT_MINOR
-		echo $CURRENT_MINOR > /home/satanand/.current_minor_lkv
+		echo $CURRENT_MINOR > ~/.current_minor_lkv
 	fi
 
 	mail -a "Content-type: text/html" -s "Linux_Changes_${CURRENT_MAJOR}.${CURRENT_MINOR}" $EMAIL_ID < /tmp/x.html
@@ -68,9 +93,10 @@ send_linux_kernel_release()
 
 binary_search()
 {
-	local -n array=$1
+	local  -n array=$1
 	local archive_local=$2
 	TMP=${array[0]}
+	echo $TMP
 	local LIST_START=$(echo $TMP | sed 's/^0*//')
 	TMP=${array[-1]}
 	local LIST_END=$(echo $TMP | sed 's/^0*//')
@@ -198,12 +224,19 @@ ARCHIVE5_NAME="odp"
 ARCHIVE6="https://lists.iovisor.org/pipermail/iovisor-dev/"
 ARCHIVE6_NAME="iovisor-dev"
 
+ARCHIVE7="https://lists.fd.io/pipermail/vpp-dev/"
+ARCHIVE7_NAME="vpp-dev"
+
+send_mail  $ARCHIVE7 $ARCHIVE7_NAME
 send_mail  $ARCHIVE6 $ARCHIVE6_NAME
 send_mail  $ARCHIVE5 $ARCHIVE5_NAME
 send_mail  $ARCHIVE3 $ARCHIVE3_NAME
 send_mail  $ARCHIVE4 $ARCHIVE4_NAME
 #send_mail  $ARCHIVE1 $ARCHIVE1_NAME
 send_mail  $ARCHIVE2 $ARCHIVE2_NAME
+# linux kernel mailing list
 #send_lkml_daily
+# netdev mailing list
 send_netdev_daily
+# new kernel releases
 send_linux_kernel_release
