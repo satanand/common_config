@@ -14,7 +14,7 @@ remoteuser = sburla@caviumnetworks.com
 remotepasseval = get_pass("office")
 ssl = yes
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
-folderfilter = lambda folder: folder in ['INBOX', 'netdev', 'Sent Items']
+folderfilter = lambda folder: folder in ['INBOX', 'netdev', 'ovs_dev', 'dpdk_dev', 'Sent Items']
 
 [Repository OfficeLocal]
 type = Maildir

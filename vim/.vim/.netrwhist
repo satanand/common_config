@@ -1,11 +1,3 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =9
-let g:netrw_dirhist_1='/home/satanand/test/cnnic70xx_rearch_r107013/host/driver/src/linux/cavium'
-let g:netrw_dirhist_2='/home/satanand/net-next/net-next/drivers'
-let g:netrw_dirhist_3='/home/satanand/upstream/test/cnnic70xx_rearch/host/driver/src/linux_upstream/cavium/liquidio'
-let g:netrw_dirhist_4='/tmp/mbox'
-let g:netrw_dirhist_5='/etc/cups/ppd'
-let g:netrw_dirhist_6='/var/log/ppp'
-let g:netrw_dirhist_7='/etc/ppp/peers'
-let g:netrw_dirhist_8='/home/satanand/linux-git/drivers/net/ethernet/..'
-let g:netrw_dirhist_9='/home/satanand/work/78xxsupport'
+let g:netrw_dirhist_cnt =1
+let g:netrw_dirhist_1='/home/satanand/work/bitbucket/test/lio2pro-l2nic'

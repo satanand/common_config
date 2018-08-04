@@ -227,9 +227,9 @@ ARCHIVE6_NAME="iovisor-dev"
 ARCHIVE7="https://lists.fd.io/pipermail/vpp-dev/"
 ARCHIVE7_NAME="vpp-dev"
 
-send_mail  $ARCHIVE7 $ARCHIVE7_NAME
-send_mail  $ARCHIVE6 $ARCHIVE6_NAME
-send_mail  $ARCHIVE5 $ARCHIVE5_NAME
+#send_mail  $ARCHIVE7 $ARCHIVE7_NAME
+#send_mail  $ARCHIVE6 $ARCHIVE6_NAME
+#send_mail  $ARCHIVE5 $ARCHIVE5_NAME
 send_mail  $ARCHIVE3 $ARCHIVE3_NAME
 send_mail  $ARCHIVE4 $ARCHIVE4_NAME
 #send_mail  $ARCHIVE1 $ARCHIVE1_NAME

@@ -35,7 +35,6 @@ let s:bMayComplete = 0
 function! omni#cpp#complete#Init()
     call omni#cpp#settings#Init()
     set omnifunc=omni#cpp#complete#Main
-    set completefunc=omni#cpp#complete#Main
     inoremap <expr> <C-X><C-O> omni#cpp#maycomplete#Complete()
     inoremap <expr> . omni#cpp#maycomplete#Dot()
     inoremap <expr> > omni#cpp#maycomplete#Arrow()
