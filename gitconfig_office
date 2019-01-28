@@ -1,6 +1,6 @@
 [user]
-	name = Satananda Burla
-	email = satananda.burla@cavium.com
+	name = Burla, Satananda
+	email = sburla@cavium.com
 [core]
 	editor = vim
 	excludesfile = /Users/satanandaburla/.gitignore_global

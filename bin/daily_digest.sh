@@ -22,7 +22,7 @@ DATE=$(echo $TMP | sed 's/^0*//')
 MON=`date --date="2 days ago" +%b`
 YEAR=`date --date="2 days ago" +%Y`
 YEARMONTH=`date --date="2 days ago" +%Y-%B`
-EMAIL_ID="sburla@caviumnetworks.com"
+EMAIL_ID="sburla@marvell.com"
 
 #netdev
 send_netdev_daily()
@@ -227,16 +227,20 @@ ARCHIVE6_NAME="iovisor-dev"
 ARCHIVE7="https://lists.fd.io/pipermail/vpp-dev/"
 ARCHIVE7_NAME="vpp-dev"
 
+ARCHIVE8="https://lists.01.org/pipermail/spdk/"
+ARCHIVE8_NAME="spdk"
+
 #send_mail  $ARCHIVE7 $ARCHIVE7_NAME
 #send_mail  $ARCHIVE6 $ARCHIVE6_NAME
 #send_mail  $ARCHIVE5 $ARCHIVE5_NAME
-send_mail  $ARCHIVE3 $ARCHIVE3_NAME
+#send_mail  $ARCHIVE3 $ARCHIVE3_NAME
 send_mail  $ARCHIVE4 $ARCHIVE4_NAME
 #send_mail  $ARCHIVE1 $ARCHIVE1_NAME
-send_mail  $ARCHIVE2 $ARCHIVE2_NAME
+#send_mail  $ARCHIVE2 $ARCHIVE2_NAME
+send_mail  $ARCHIVE8 $ARCHIVE8_NAME
 # linux kernel mailing list
-#send_lkml_daily
+# send_lkml_daily
 # netdev mailing list
-send_netdev_daily
+# send_netdev_daily
 # new kernel releases
-send_linux_kernel_release
+# send_linux_kernel_release

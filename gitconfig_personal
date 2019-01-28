@@ -1,15 +1,15 @@
 [user]
-	name = Satanand Burla
-	email = satanand.burla@gmail.com
+       name = Satanand Burla
+       email = satanand.burla@gmail.com
 [core]
-	editor = vim
+       editor = vim
 [sendemail]
-	smtpuser = satanand.burla@gmail.com
-	smtpserver = smtp.gmail.com
-	smtpencryption = tls
-	smtpserverport = 587
-	supresscc = self
+       smtpuser = satanand.burla@gmail.com
+       smtpserver = smtp.gmail.com
+       smtpencryption = tls
+       smtpserverport = 587
+       supresscc = self
 [diff]
-	  tool = default-difftool
+         tool = default-difftool
 [difftool "default-difftool"]
-	  cmd = vim -f '+next' '+execute \"DirDiff\" argv(0) argv(1)' $LOCAL $REMOTE '+syntax off'
+         cmd = vim -f '+next' '+execute \"DirDiff\" argv(0) argv(1)' $LOCAL $REMOTE '+syntax off'
