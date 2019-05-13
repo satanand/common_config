@@ -1,7 +1,8 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =5
+let g:netrw_dirhist_cnt =6
 let g:netrw_dirhist_1='/home/satanand/work/bitbucket/test/lio2pro-l2nic'
 let g:netrw_dirhist_2='/home/satanand/work/bitbucket/lio2pro-demo-fwsrc-1.0.0.0/sources/lio2pro-l2nic'
 let g:netrw_dirhist_3='/home/satanand/work/bitbucket/lio2pro-l2nic'
 let g:netrw_dirhist_4='/home/satanand/work/bitbucket/test/lio2pro-l2nic'
 let g:netrw_dirhist_5='/home/satanand/work/bitbucket/lio2pro-l2nic'
+let g:netrw_dirhist_6='/home/satanand'
