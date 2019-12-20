@@ -27,6 +27,7 @@ set nocp
 set nowrap
 "set columns=160
 "set lines=60
+set tags=./tags,tags;
 
 syntax enable
 filetype plugin on
