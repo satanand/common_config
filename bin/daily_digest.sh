@@ -15,6 +15,7 @@
 # TODO starting and ending dates are displayed incorrectly 
 # TODO number of messages are displayed incorrectly
 # TODO it only supports daily digests, the binary search algorithm has to be modified to make it work with arbitary number of days
+set -x
 
 DATE_MAIL=`date --date="2 days ago" +%Y/%m/%d`
 TMP=`date --date="2 days ago" +%d`
@@ -28,8 +29,9 @@ EMAIL_ID="sburla@marvell.com"
 send_netdev_daily()
 {
 	wget http://lists.openwall.net/netdev/${DATE_MAIL} -O /tmp/x.html
-	sed -i "/<head>/a <base href=\" http:\/\/lists.openwall.net\/netdev\/${DATE_MAIL}\/\">" /tmp/x.html
-	mail -a "Content-type: text/html" -s "netdev-digest_${DATE_MAIL}" $EMAIL_ID < /tmp/x.html
+	sed -i "/<head>/a <base href=\" https:\/\/lists.openwall.net\/netdev\/${DATE_MAIL}\/\">" /tmp/x.html
+	#mail -a "Content-type: text/html" -s "netdev-digest_${DATE_MAIL}" $EMAIL_ID < /tmp/x.html
+	mutt -e "set content_type=text/html" -s "netdev-digest_${DATE_MAIL}" $EMAIL_ID < /tmp/x.html
 	rm -f /tmp/x.html
 }
 
@@ -38,7 +40,8 @@ send_lkml_daily()
 {
 	wget https://lkml.org/lkml/${DATE_MAIL} -O /tmp/x.html
 	sed -i "s#<head>#<head><base href=\" https://lkml.org/\">#" /tmp/x.html
-	mail -a "Content-type: text/html" -s "lkml-digest_${DATE_MAIL}" $EMAIL_ID < /tmp/x.html
+	#mail -a "Content-type: text/html" -s "${DATE_MAIL}" $EMAIL_ID < /tmp/x.html
+	mutt -e "set content_type=text/html" -s "lkml-digest_${DATE_MAIL}" $EMAIL_ID < /tmp/x.html
 	rm -f /tmp/x.html
 }
 
@@ -84,7 +87,8 @@ send_linux_kernel_release()
 		echo $CURRENT_MINOR > ~/.current_minor_lkv
 	fi
 
-	mail -a "Content-type: text/html" -s "Linux_Changes_${CURRENT_MAJOR}.${CURRENT_MINOR}" $EMAIL_ID < /tmp/x.html
+	#mail -a "Content-type: text/html" -s "Linux_Changes_${CURRENT_MAJOR}.${CURRENT_MINOR}" $EMAIL_ID < /tmp/x.html
+	mutt -e "set content_type=text/html" -s "Linux_Changes_${CURRENT_MAJOR}.${CURRENT_MINOR}" $EMAIL_ID < /tmp/x.html
 	rm -f /tmp/x.html
 }
 
@@ -194,7 +198,8 @@ send_mail ()
 				sed -i -e "/${ii6}.html/,+4d" /tmp/x.html
 			done
 			sed -i "/<HEAD>/a <base href="$archive_local$YEARMONTH\/">" /tmp/x.html
-			mail -a "Content-type: text/html" -s "$2_$DATE_MAIL" $EMAIL_ID < /tmp/x.html
+			#mail -a "Content-type: text/html" -s "$2_$DATE_MAIL" $EMAIL_ID < /tmp/x.html
+			mutt -e "set content_type=text/html" -s "$2_$DATE_MAIL" $EMAIL_ID < /tmp/x.html
 		else
 			echo "not sending mail"
 		fi
@@ -237,7 +242,7 @@ ARCHIVE8_NAME="spdk"
 send_mail  $ARCHIVE4 $ARCHIVE4_NAME
 #send_mail  $ARCHIVE1 $ARCHIVE1_NAME
 #send_mail  $ARCHIVE2 $ARCHIVE2_NAME
-send_mail  $ARCHIVE8 $ARCHIVE8_NAME
+#send_mail  $ARCHIVE8 $ARCHIVE8_NAME
 # linux kernel mailing list
 # send_lkml_daily
 # netdev mailing list
