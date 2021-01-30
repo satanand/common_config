@@ -4,6 +4,7 @@ endif
 let g:loaded_linuxsty = 1
 
 set wildignore+=*.ko,*.mod.c,*.order,modules.builtin
+set colorcolumn=80
 
 augroup linuxsty
     autocmd!
@@ -32,12 +33,15 @@ function s:LinuxKeywords()
 endfunction
 
 function s:LinuxHighlighting()
+
     highlight default link LinuxError ErrorMsg
     highlight default link LinuxWarn  CursorColumn
+    "autocmd ColorScheme * highlight LinuxWarn ctermbg=red guibg=LightGrey
 
     syn match LinuxError / \+\ze\t/     " spaces before tab
     syn match LinuxError /\s\+$/        " trailing whitespaces
-    syn match LinuxError /\%81v.\+/     " virtual column 81 and more
+    "syn match LinuxError /\%81v.\+/     " virtual column 81 and more
     syn match LinuxWarn /^\t*\zs \+/   " spaces used for indent
 endfunction
+
 " vim: ts=4 et sw=4
